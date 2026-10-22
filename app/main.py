@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,9 +7,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app.routers import auth, candidates, votes, voters
 
+logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    from app.config import get_settings
+
+    settings = get_settings()
+    if settings.jwt_secret_key == "change-this-development-secret":
+        logger.warning("JWT_SECRET_KEY usa el valor de desarrollo; cámbialo antes de publicar.")
     Base.metadata.create_all(bind=engine)
     yield
 

@@ -1,4 +1,4 @@
-﻿# Sistema de Votaciones - API REST
+# Sistema de Votaciones - API REST
 
 API RESTful para gestionar votantes, candidatos, votos y estadísticas electorales. El proyecto fue desarrollado como prueba técnica con Python, FastAPI, SQLAlchemy 2 y SQLite/SQL Server.
 
@@ -85,13 +85,27 @@ Reemplaza `DATABASE_URL` en `.env` con una cadena válida para esa máquina:
 
 ```env
 DATABASE_URL=mssql+pyodbc://@localhost/VotacionesDB?driver=ODBC+Driver+18+for+SQL+Server&Trusted_Connection=yes&TrustServerCertificate=yes
+```
+
+### Configuración de la aplicación
+
+Estas variables aplican tanto para SQLite como para SQL Server y ya están
+incluidas en `.env.example`:
+
+```env
 JWT_SECRET_KEY=change-this-development-secret
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=admin123
 JWT_EXPIRE_MINUTES=60
 ```
 
-No publicar `.env`. El archivo `.env.example` sirve como plantilla y `.gitignore` excluye las credenciales y el entorno virtual.
+`admin` y `admin123` son credenciales de desarrollo para la prueba. Cambia
+`JWT_SECRET_KEY`, `ADMIN_USERNAME` y `ADMIN_PASSWORD` antes de publicar un
+entorno real. La aplicación emite una advertencia si se inicia con el secreto
+JWT de desarrollo.
+
+No publicar `.env`. El archivo `.env.example` sirve como plantilla y
+`.gitignore` excluye las credenciales y el entorno virtual.
 
 Las tablas se crean automáticamente al iniciar la aplicación mediante
 `Base.metadata.create_all`. La guía completa está en
@@ -245,7 +259,10 @@ Las pruebas utilizan una base SQLite temporal y no modifican SQL Server:
 .\venv\Scripts\python.exe -m pytest -v
 ```
 
-Las pruebas cubren el voto exitoso, el voto duplicado, entidades inexistentes, email duplicado, cruce votante/candidato y estadísticas sin votos.
+Las pruebas cubren el voto exitoso, el voto duplicado, entidades inexistentes,
+email duplicado, cruce votante/candidato, estadísticas sin votos y
+autorización JWT: solicitud protegida sin token (`401`) y un votante intentando
+usar otro `voter_id` (`403`).
 
 ## Capturas para la entrega
 
@@ -351,17 +368,6 @@ curl.exe -X POST http://127.0.0.1:8000/auth/voter-login `
 
 El endpoint `POST /votes` valida que el `voter_id` enviado coincida con el votante incluido en el token. Un votante no puede votar en nombre de otra persona.
 
-### Registrar un votante como administrador
-
-Usar el token de administrador recibido:
-
-```powershell
-curl.exe -X POST http://127.0.0.1:8000/voters `
-  -H "Content-Type: application/json" `
-  -H "Authorization: Bearer TU_TOKEN" `
-  -d '{"name":"Ana Gómez","email":"ana@mail.com","password":"votante123"}'
-```
-
 En un entorno real se deben cambiar `JWT_SECRET_KEY`, `ADMIN_USERNAME` y `ADMIN_PASSWORD` en `.env`. El frontend muestra primero una pantalla de login y no carga información del sistema hasta autenticar al usuario. Después presenta una vista distinta según el rol: administración completa para `admin` y participación electoral limitada para `voter`. El token se conserva solo en `sessionStorage`.
 
 ## Ejecutar el backend y el frontend
@@ -417,9 +423,9 @@ Invoke-WebRequest http://127.0.0.1:5500
 
 Luego abre `http://127.0.0.1:5500` en el navegador y verifica que aparezca el estado `API conectada`.
 
-## Entrega
+## Checklist de verificación
 
-Antes de publicar:
+Para revisar una instalación local:
 
 1. Ejecutar las pruebas.
 2. Probar el flujo completo desde Swagger.

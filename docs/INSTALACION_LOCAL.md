@@ -63,7 +63,8 @@ Contraseña: admin123
 ```
 
 Antes de compartir o publicar una instalación real, cambia esos valores y
-`JWT_SECRET_KEY` en `.env`.
+`JWT_SECRET_KEY` en `.env`. La aplicación muestra una advertencia al iniciar si
+se conserva el secreto JWT de desarrollo.
 
 ## 5. Iniciar backend y frontend
 

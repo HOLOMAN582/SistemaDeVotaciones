@@ -91,3 +91,31 @@ def test_voter_login_returns_voter_token(client):
 
     assert response.status_code == 200
     assert response.json()["role"] == "voter"
+
+
+def test_protected_write_without_token_returns_401(client):
+    from app.auth import require_admin
+    from app.main import app
+
+    app.dependency_overrides.pop(require_admin, None)
+    try:
+        response = client.post(
+            "/voters",
+            json={"name": "Sin Token", "email": "sin-token@example.com", "password": "votante123"},
+        )
+    finally:
+        app.dependency_overrides[require_admin] = lambda: "test-admin"
+
+    assert response.status_code == 401
+
+
+def test_voter_cannot_vote_for_another_voter(client):
+    voter = create_voter(client).json()
+    candidate = create_candidate(client).json()
+
+    response = client.post(
+        "/votes",
+        json={"voter_id": voter["id"] + 1, "candidate_id": candidate["id"]},
+    )
+
+    assert response.status_code == 403
