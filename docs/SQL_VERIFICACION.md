@@ -213,7 +213,9 @@ GO
 
 ## 8. Detectar nombres repetidos o cruces votante-candidato
 
-La API compara nombres ignorando mayúsculas/minúsculas y espacios repetidos al registrarlos. Esta consulta detecta coincidencias directas:
+La API compara nombres ignorando mayúsculas/minúsculas, tildes, formas Unicode
+equivalentes y espacios repetidos al registrarlos. Esta consulta detecta
+coincidencias directas:
 
 ```sql
 SELECT

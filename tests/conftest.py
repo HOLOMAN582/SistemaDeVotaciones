@@ -9,8 +9,7 @@ from app.auth import require_admin, require_voter
 from app.main import app
 
 
-@pytest.fixture()
-def client():
+def build_test_database():
     engine = create_engine(
         "sqlite:///:memory:",
         connect_args={"check_same_thread": False},
@@ -26,6 +25,12 @@ def client():
         finally:
             db.close()
 
+    return engine, override_get_db
+
+
+@pytest.fixture()
+def client():
+    engine, override_get_db = build_test_database()
     app.dependency_overrides[get_db] = override_get_db
     app.dependency_overrides[require_admin] = lambda: "test-admin"
     app.dependency_overrides[require_voter] = lambda: {"role": "voter", "voter_id": 1}
@@ -37,21 +42,7 @@ def client():
 
 @pytest.fixture()
 def real_auth_client():
-    engine = create_engine(
-        "sqlite:///:memory:",
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool,
-    )
-    TestingSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-    Base.metadata.create_all(bind=engine)
-
-    def override_get_db():
-        db = TestingSessionLocal()
-        try:
-            yield db
-        finally:
-            db.close()
-
+    engine, override_get_db = build_test_database()
     app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as test_client:
         yield test_client

@@ -1,3 +1,5 @@
+import unicodedata
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 
@@ -6,6 +8,11 @@ def clean_name(value: str) -> str:
     if not value:
         raise ValueError("El nombre no puede estar vacío")
     return value
+
+
+def name_key(value: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", " ".join(value.split()))
+    return "".join(character for character in decomposed if not unicodedata.combining(character)).casefold()
 
 
 class VoterCreate(BaseModel):

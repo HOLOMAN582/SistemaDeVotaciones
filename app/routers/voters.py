@@ -6,15 +6,15 @@ from sqlalchemy.orm import Session
 from app.auth import hash_password, require_admin
 from app.database import get_db
 from app.models import Candidate, Vote, Voter
-from app.schemas import VoterCreate, VoterRead
+from app.schemas import VoterCreate, VoterRead, name_key
 
 router = APIRouter(prefix="/voters", tags=["Voters"])
 
 
 @router.post("", response_model=VoterRead, status_code=status.HTTP_201_CREATED)
 def create_voter(payload: VoterCreate, db: Session = Depends(get_db), _: dict = Depends(require_admin)):
-    normalized = payload.name.casefold()
-    if any(name.casefold() == normalized for name in db.scalars(select(Candidate.name))):
+    normalized = name_key(payload.name)
+    if any(name_key(name) == normalized for name in db.scalars(select(Candidate.name))):
         raise HTTPException(status_code=409, detail="El nombre ya está registrado como candidato")
     voter = Voter(
         name=payload.name,

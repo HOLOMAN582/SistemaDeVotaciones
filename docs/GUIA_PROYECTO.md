@@ -126,7 +126,7 @@ La restricción única de `votes.voter_id` complementa la validación del códig
 La API no agrega un campo email al candidato. Para cumplir la regla de que una persona no puede aparecer en ambos roles:
 
 - Se compactan los espacios del nombre.
-- Se compara sin distinguir mayúsculas y minúsculas.
+- Se compara sin distinguir mayúsculas/minúsculas, tildes ni formas Unicode equivalentes.
 - La comparación se realiza al registrar votantes y candidatos.
 
 Por ejemplo, `Ana Gómez`, ` ana   gómez ` y `ANA GÓMEZ` representan el mismo nombre para esta validación.

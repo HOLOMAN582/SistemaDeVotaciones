@@ -231,7 +231,7 @@ curl.exe "http://127.0.0.1:8000/candidates?skip=0&limit=10"
 ## Reglas de negocio
 
 - `email` es obligatorio y único para cada votante.
-- El nombre se normaliza eliminando espacios sobrantes y se compara sin distinguir mayúsculas/minúsculas.
+- El nombre se normaliza eliminando espacios sobrantes, ignorando mayúsculas/minúsculas, tildes y formas Unicode equivalentes.
 - Un nombre registrado como votante no puede registrarse como candidato, ni al contrario.
 - Un votante inexistente o un candidato inexistente impiden registrar el voto.
 - Un votante que ya votó recibe `409 Conflict` si intenta votar de nuevo.
