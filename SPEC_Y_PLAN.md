@@ -4,7 +4,7 @@
 > evidencias se encuentran organizados en `docs/`.
 
 **Stack elegido:** Python 3.11+ · FastAPI · SQLAlchemy 2.x · SQLite/SQL Server · pyodbc · Pydantic · pytest
-**Repositorio:** se publica una sola vez, al final
+**Repositorio público:** [github.com/HOLOMAN582/SistemaDeVotaciones](https://github.com/HOLOMAN582/SistemaDeVotaciones)
 
 ---
 
@@ -85,7 +85,7 @@ Crear un API RESTful para gestionar un sistema de votaciones. El sistema debe ma
 5. Documentación básica de la API (Swagger o README).
 
 ### Entrega
-- Subir el código a un **repositorio público en GitHub** *(lo haremos al final, Fase 10)*.
+- Subir el código a un **repositorio público en GitHub** (completado en la Fase 10).
 - Incluir un `README.md` con:
   - Instrucciones para ejecutar el proyecto localmente.
   - Ejemplos de uso del API (Postman o curl).
@@ -231,17 +231,17 @@ del repositorio se realiza al finalizar la preparación del proyecto.
 - [x] Todos los endpoints funcionan desde Swagger.
 - [x] README completo con capturas.
 - [x] Tests pasan (`pytest`).
-- [ ] `.env` no está incluido y `.env.example` sí.
+- [x] `.env` no está incluido y `.env.example` sí.
 - [x] Scripts de instalación y arranque independientes de la ruta local.
 - [ ] Probar la instalación desde cero en una carpeta limpia siguiendo el README.
 
-### Fase 10: Publicar en GitHub 
-- [ ] Crear el repositorio **público** en GitHub (sin README inicial, para evitar conflictos).
-- [ ] En la carpeta del proyecto: `git init`, `git add .`, `git commit -m "feat: API de votaciones"`.
-- [ ] Verificar con `git status` que `.env` y `venv/` **no** se van a subir.
-- [ ] `git remote add origin <URL>`, `git branch -M main`, `git push -u origin main`.
-- [ ] Abrir el repo en el navegador y comprobar que el README se ve bien, con las capturas.
-- [ ] Copiar el enlace del repo para la entrega.
+### Fase 10: Publicar en GitHub ☑
+- [x] Crear el repositorio público en GitHub.
+- [x] Inicializar Git y crear el commit inicial del proyecto.
+- [x] Verificar que `.env`, `venv/`, `*.db` y cachés no se incluyan.
+- [x] Configurar el remoto y publicar la rama `main`.
+- [x] Verificar el README, el código, la documentación y las capturas publicadas.
+- [x] Repositorio publicado: [SistemaDeVotaciones](https://github.com/HOLOMAN582/SistemaDeVotaciones).
 
 ---
 

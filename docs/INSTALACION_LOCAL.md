@@ -18,7 +18,7 @@ Durante la instalación de Python activa la opción **Add Python to PATH**.
 Desde PowerShell:
 
 ```powershell
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/HOLOMAN582/SistemaDeVotaciones.git
 cd EntregableNewInntech
 ```
 

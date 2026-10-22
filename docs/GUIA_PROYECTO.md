@@ -275,7 +275,7 @@ Las consultas detalladas están en [SQL_VERIFICACION.md](SQL_VERIFICACION.md). L
 - [x] Se agregan capturas de estadísticas en `docs/ScreenShotsPostman/`.
 - [ ] `.env` y `venv/` quedan excluidos de Git.
 - [ ] Se revisa el README.
-- [ ] Se inicializa Git y se publica el repositorio público.
+- [x] Se inicializa Git y se publica el repositorio público: [SistemaDeVotaciones](https://github.com/HOLOMAN582/SistemaDeVotaciones).
 
 ## 14. Limitaciones conocidas
 

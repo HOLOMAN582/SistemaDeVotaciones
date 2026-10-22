@@ -2,6 +2,8 @@
 
 API RESTful para gestionar votantes, candidatos, votos y estadísticas electorales. El proyecto fue desarrollado como prueba técnica con Python, FastAPI, SQLAlchemy 2 y SQL Server.
 
+**Repositorio público:** [github.com/HOLOMAN582/SistemaDeVotaciones](https://github.com/HOLOMAN582/SistemaDeVotaciones)
+
 > Con el debido permiso, me tomé la libertad de agregar un frontend breve al proyecto para facilitar la demostración visual de la API. Espero que sea de utilidad y les guste.
 
 ## Resumen funcional
@@ -397,7 +399,7 @@ Antes de publicar:
 4. Validar estadísticas.
 5. Revisar las capturas de `docs/ScreenShotsPostman/`.
 6. Confirmar que `.env`, `venv/`, archivos `*.db` y cachés no se incluyan.
-7. Inicializar Git y publicar el repositorio público.
+7. Consultar el repositorio público: <https://github.com/HOLOMAN582/SistemaDeVotaciones>.
 
 La autenticación JWT y la separación de roles `admin`/`voter` están
 implementadas. La paginación y el filtro también están incluidos.
