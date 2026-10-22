@@ -1,4 +1,4 @@
-# Sistema de Votaciones - API REST
+﻿# Sistema de Votaciones - API REST
 
 API RESTful para gestionar votantes, candidatos, votos y estadísticas electorales. El proyecto fue desarrollado como prueba técnica con Python, FastAPI, SQLAlchemy 2 y SQL Server.
 
