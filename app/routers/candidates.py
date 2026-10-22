@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import func, select
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.auth import require_admin
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/candidates", tags=["Candidates"])
 @router.post("", response_model=CandidateRead, status_code=status.HTTP_201_CREATED)
 def create_candidate(payload: CandidateCreate, db: Session = Depends(get_db), _: dict = Depends(require_admin)):
     normalized = payload.name.casefold()
-    if db.scalar(select(Voter.id).where(func.lower(Voter.name) == normalized)):
+    if any(name.casefold() == normalized for name in db.scalars(select(Voter.name))):
         raise HTTPException(status_code=409, detail="El nombre ya está registrado como votante")
     candidate = Candidate(name=payload.name, party=payload.party)
     db.add(candidate)

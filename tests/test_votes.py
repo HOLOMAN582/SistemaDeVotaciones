@@ -47,6 +47,12 @@ def test_voter_cannot_be_registered_as_candidate(client):
     assert response.status_code == 409
 
 
+def test_cross_check_with_accents(client):
+    assert create_voter(client, name="Óscar Díaz", email="oscar@example.com").status_code == 201
+
+    assert create_candidate(client, name="ÓSCAR DÍAZ").status_code == 409
+
+
 def test_statistics_without_votes_are_zero(client):
     candidate = create_candidate(client).json()
 
@@ -119,3 +125,39 @@ def test_voter_cannot_vote_for_another_voter(client):
     )
 
     assert response.status_code == 403
+
+
+def test_real_jwt_flow_rejects_wrong_role_and_missing_token(real_auth_client):
+    missing_token_response = real_auth_client.post(
+        "/voters",
+        json={"name": "Sin Token", "email": "sin-token@example.com", "password": "votante123"},
+    )
+    assert missing_token_response.status_code == 401
+
+    admin_login = real_auth_client.post(
+        "/auth/login",
+        json={"username": "admin", "password": "admin123"},
+    )
+    assert admin_login.status_code == 200
+    admin_token = admin_login.json()["access_token"]
+
+    create_voter_response = real_auth_client.post(
+        "/voters",
+        headers={"Authorization": f"Bearer {admin_token}"},
+        json={"name": "Ana Real", "email": "ana-real@example.com", "password": "votante123"},
+    )
+    assert create_voter_response.status_code == 201
+
+    voter_login = real_auth_client.post(
+        "/auth/voter-login",
+        json={"email": "ana-real@example.com", "password": "votante123"},
+    )
+    assert voter_login.status_code == 200
+    voter_token = voter_login.json()["access_token"]
+
+    wrong_role_response = real_auth_client.post(
+        "/voters",
+        headers={"Authorization": f"Bearer {voter_token}"},
+        json={"name": "No Admin", "email": "no-admin@example.com", "password": "votante123"},
+    )
+    assert wrong_role_response.status_code == 403

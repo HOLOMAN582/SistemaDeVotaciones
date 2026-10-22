@@ -91,6 +91,11 @@ Las consultas de lectura permanecen públicas:
 - `GET /votes`
 - `GET /votes/statistics`
 
+Esta decisión conserva la compatibilidad con la prueba técnica, pero debe
+revisarse en producción: `GET /voters` expone emails y `GET /votes` puede
+revelar quién votó por qué candidato. Una versión productiva debería proteger
+estos endpoints o devolver datos anonimizados.
+
 Requieren `Authorization: Bearer <token>`:
 
 - `POST` y `DELETE` de votantes.

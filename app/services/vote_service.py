@@ -1,3 +1,4 @@
+from sqlalchemy import update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -28,7 +29,11 @@ def cast_vote(db: Session, voter_id: int, candidate_id: int) -> Vote:
         vote = Vote(voter_id=voter_id, candidate_id=candidate_id)
         db.add(vote)
         voter.has_voted = True
-        candidate.votes += 1
+        db.execute(
+            update(Candidate)
+            .where(Candidate.id == candidate_id)
+            .values(votes=Candidate.votes + 1)
+        )
         db.commit()
         db.refresh(vote)
         return vote

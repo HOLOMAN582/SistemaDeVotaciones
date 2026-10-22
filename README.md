@@ -165,8 +165,10 @@ Swagger permite ejecutar y revisar cada endpoint sin instalar Postman.
 
 ## Ejemplos con curl
 
-Las consultas `GET` son públicas. Las operaciones `POST` y `DELETE` requieren
-un token JWT. Ejecuta primero el login de administrador de la sección
+Las consultas `GET` son públicas por requisito de la prueba. En un entorno real,
+`GET /voters` expone datos de contacto y `GET /votes` puede revelar la relación
+entre votantes y candidatos; convendría protegerlos o anonimizar sus respuestas.
+Las operaciones `POST` y `DELETE` requieren un token JWT. Ejecuta primero el login de administrador de la sección
 [Autenticación JWT](#autenticación-jwt) y guarda el token en la variable
 `$adminToken`.
 

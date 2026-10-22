@@ -98,7 +98,7 @@ Crear un API RESTful para gestionar un sistema de votaciones. El sistema debe ma
 | # | Decisión | Detalle |
 |---|---|---|
 | 1 | **Un voto por votante garantizado por la BD** | `UNIQUE` en `votes.voter_id`. Además del chequeo en código, para soportar peticiones simultáneas. |
-| 2 | **Voto atómico** | Una sola transacción: validar votante → validar candidato → insertar `Vote` → `has_voted = True` → `candidate.votes += 1`. Si algo falla, `rollback`. |
+| 2 | **Voto atómico** | Una sola transacción: validar votante → validar candidato → insertar `Vote` → `has_voted = True` → incrementar `candidate.votes` directamente en la base de datos. Si algo falla, `rollback`. |
 | 3 | **Votante ≠ candidato** | `Candidate` no tiene `email`. Se comparan nombres normalizados (minúsculas y espacios compactados), tanto al registrar votantes como candidatos. |
 | 4 | **Estadísticas** | Total por candidato, porcentaje sobre el total de votos y total de votantes que han votado. Evitar división por cero si aún no hay votos. |
 | 5 | **Códigos HTTP** | `201` creación · `200` consulta · `204` borrado · `404` no existe · `409` conflicto (email duplicado, ya votó, cruce votante/candidato, borrado con votos) · `422` validación. |
