@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlalchemy>=2.0
+pyodbc
+pydantic[email]
+pydantic-settings
+python-dotenv
+python-jose[cryptography]
+pytest
+httpx

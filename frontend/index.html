@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Votaciones</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">API REST · FastAPI + SQL Server</p>
+      <h1>Sistema de Votaciones</h1>
+    </div>
+    <div class="topbar-actions">
+      <span id="connection-status" class="status-badge">API protegida</span>
+      <button id="logout-button" class="button light-button hidden" type="button">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="alert" class="alert hidden" role="alert"></section>
+
+    <section id="login-screen" class="login-screen">
+      <div class="login-card">
+        <p class="eyebrow">Acceso seguro</p>
+        <h2>Iniciar sesión</h2>
+        <p class="login-description">Identifícate para acceder a la vista correspondiente a tu rol.</p>
+        <form id="login-form" class="form">
+          <label for="login-role">Tipo de usuario</label>
+          <select id="login-role">
+            <option value="admin">Administrador</option>
+            <option value="voter">Votante</option>
+          </select>
+          <label id="login-username-label" for="login-username">Usuario</label>
+          <input id="login-username" required placeholder="Usuario" value="admin" autocomplete="username">
+          <label for="login-password">Contraseña</label>
+          <input id="login-password" required type="password" placeholder="Contraseña" value="admin123" autocomplete="current-password">
+          <button class="button" type="submit">Ingresar</button>
+        </form>
+        <p class="login-help">Administrador: gestiona el sistema. Votante: ingresa con su email y emite su voto.</p>
+      </div>
+    </section>
+
+    <section id="app-shell" class="hidden">
+      <div class="session-banner">
+        <div>
+          <p class="eyebrow">Sesión activa</p>
+          <strong id="auth-status"></strong>
+        </div>
+        <span id="role-description"></span>
+      </div>
+
+      <section id="admin-view" class="hidden">
+        <section class="stats-grid" aria-label="Estadísticas generales">
+          <article class="stat-card"><span>Total de votos</span><strong id="total-votes">-</strong></article>
+          <article class="stat-card"><span>Votantes que participaron</span><strong id="voters-who-voted">-</strong></article>
+          <article class="stat-card"><span>Candidatos registrados</span><strong id="total-candidates">-</strong></article>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div><p class="eyebrow">Resultados</p><h2>Estadísticas por candidato</h2></div>
+            <button id="refresh-button" class="button secondary" type="button">Actualizar</button>
+          </div>
+          <div id="results-list" class="results-list"></div>
+        </section>
+
+        <div class="two-columns">
+          <section class="panel">
+            <div class="section-heading"><div><p class="eyebrow">Administración</p><h2>Nuevo votante</h2></div></div>
+            <form id="voter-form" class="form">
+              <label for="voter-name">Nombre</label>
+              <input id="voter-name" name="name" required maxlength="120" placeholder="Ej. Ana Gómez">
+              <label for="voter-email">Correo electrónico</label>
+              <input id="voter-email" name="email" type="email" required placeholder="ana@mail.com">
+              <label for="voter-password">Contraseña de acceso</label>
+              <input id="voter-password" name="password" type="password" minlength="8" required placeholder="Mínimo 8 caracteres">
+              <button class="button" type="submit">Registrar votante</button>
+            </form>
+          </section>
+          <section class="panel">
+            <div class="section-heading"><div><p class="eyebrow">Administración</p><h2>Nuevo candidato</h2></div></div>
+            <form id="candidate-form" class="form">
+              <label for="candidate-name">Nombre</label>
+              <input id="candidate-name" name="name" required maxlength="120" placeholder="Ej. Candidato A">
+              <label for="candidate-party">Partido político</label>
+              <input id="candidate-party" name="party" maxlength="120" placeholder="Opcional">
+              <button class="button" type="submit">Registrar candidato</button>
+            </form>
+          </section>
+        </div>
+
+        <div class="two-columns">
+          <section class="panel"><div class="section-heading"><div><p class="eyebrow">Consulta administrativa</p><h2>Votantes</h2></div></div><div class="table-wrapper"><table><thead><tr><th>Nombre</th><th>Email</th><th>Estado</th></tr></thead><tbody id="voters-table"></tbody></table></div></section>
+          <section class="panel"><div class="section-heading"><div><p class="eyebrow">Consulta administrativa</p><h2>Candidatos</h2></div></div><div class="table-wrapper"><table><thead><tr><th>Nombre</th><th>Partido</th><th>Votos</th></tr></thead><tbody id="candidates-table"></tbody></table></div></section>
+        </div>
+      </section>
+
+      <section id="voter-view" class="hidden">
+        <section class="panel voter-welcome">
+          <p class="eyebrow">Participación electoral</p>
+          <h2>Emite tu voto</h2>
+          <p>Selecciona un candidato. Tu identidad ya está asociada a esta sesión y solo puedes votar una vez.</p>
+        </section>
+        <section class="panel">
+          <div class="section-heading"><div><p class="eyebrow">Candidatos disponibles</p><h2>Selecciona tu candidato</h2></div></div>
+          <form id="vote-form" class="vote-form">
+            <div><label for="voter-select">Votante autenticado</label><select id="voter-select" required disabled><option value="">Tu usuario</option></select></div>
+            <div><label for="candidate-select">Candidato</label><select id="candidate-select" required><option value="">Selecciona un candidato</option></select></div>
+            <button class="button" type="submit">Emitir voto</button>
+          </form>
+        </section>
+        <section class="panel">
+          <div class="section-heading"><div><p class="eyebrow">Información pública</p><h2>Resultados actuales</h2></div><button id="voter-refresh-button" class="button secondary" type="button">Actualizar</button></div>
+          <div id="voter-results-list" class="results-list"></div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
