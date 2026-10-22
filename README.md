@@ -1,10 +1,10 @@
 ﻿# Sistema de Votaciones - API REST
 
-API RESTful para gestionar votantes, candidatos, votos y estadísticas electorales. El proyecto fue desarrollado como prueba técnica con Python, FastAPI, SQLAlchemy 2 y SQL Server.
+API RESTful para gestionar votantes, candidatos, votos y estadísticas electorales. El proyecto fue desarrollado como prueba técnica con Python, FastAPI, SQLAlchemy 2 y SQLite/SQL Server.
 
 **Repositorio público:** [github.com/HOLOMAN582/SistemaDeVotaciones](https://github.com/HOLOMAN582/SistemaDeVotaciones)
 
-> Con el debido permiso, me tomé la libertad de agregar un frontend breve al proyecto para facilitar la demostración visual de la API. Espero que sea de utilidad y les guste.
+> Como complemento, agregué un frontend breve para demostrar visualmente el funcionamiento de la API.
 
 ## Resumen funcional
 
@@ -151,12 +151,26 @@ Swagger permite ejecutar y revisar cada endpoint sin instalar Postman.
 
 ## Ejemplos con curl
 
-Registrar un votante:
+Las consultas `GET` son públicas. Las operaciones `POST` y `DELETE` requieren
+un token JWT. Ejecuta primero el login de administrador de la sección
+[Autenticación JWT](#autenticación-jwt) y guarda el token en la variable
+`$adminToken`.
+
+Obtener un token de administrador:
+
+```powershell
+$adminToken = (curl.exe -s -X POST http://127.0.0.1:8000/auth/login `
+  -H "Content-Type: application/json" `
+  -d '{"username":"admin","password":"admin123"}' | ConvertFrom-Json).access_token
+```
+
+Registrar un votante (el password es obligatorio para el login del votante):
 
 ```powershell
 curl.exe -X POST http://127.0.0.1:8000/voters `
   -H "Content-Type: application/json" `
-  -d '{"name":"Ana Gómez","email":"ana@mail.com"}'
+  -H "Authorization: Bearer $adminToken" `
+  -d '{"name":"Ana Gómez","email":"ana@mail.com","password":"votante123"}'
 ```
 
 Registrar un candidato:
@@ -164,7 +178,16 @@ Registrar un candidato:
 ```powershell
 curl.exe -X POST http://127.0.0.1:8000/candidates `
   -H "Content-Type: application/json" `
+  -H "Authorization: Bearer $adminToken" `
   -d '{"name":"Carlos Ruiz","party":"Partido Verde"}'
+```
+
+Obtener un token de votante:
+
+```powershell
+$voterToken = (curl.exe -s -X POST http://127.0.0.1:8000/auth/voter-login `
+  -H "Content-Type: application/json" `
+  -d '{"email":"ana@mail.com","password":"votante123"}' | ConvertFrom-Json).access_token
 ```
 
 Emitir un voto:
@@ -172,6 +195,7 @@ Emitir un voto:
 ```powershell
 curl.exe -X POST http://127.0.0.1:8000/votes `
   -H "Content-Type: application/json" `
+  -H "Authorization: Bearer $voterToken" `
   -d '{"voter_id":1,"candidate_id":1}'
 ```
 
@@ -207,6 +231,8 @@ curl.exe "http://127.0.0.1:8000/candidates?skip=0&limit=10"
 |  `200` | Consulta exitosa                 |
 |  `201` | Recurso creado                   |
 |  `204` | Recurso eliminado                |
+|  `401` | Autenticación ausente o inválida |
+|  `403` | Rol sin permisos para la operación |
 |  `404` | Votante o candidato inexistente  |
 |  `409` | Conflicto de negocio o duplicado |
 |  `422` | Datos de entrada inválidos       |
@@ -238,6 +264,8 @@ docs/ScreenShotsPostman/Estadisticas.png
 La captura principal es
 [Estadisticas.png](docs/ScreenShotsPostman/Estadisticas.png), con la respuesta
 de `GET /votes/statistics`.
+
+![Estadísticas de la votación](docs/ScreenShotsPostman/Estadisticas.png)
 
 ## Estructura
 

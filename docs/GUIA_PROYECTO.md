@@ -267,13 +267,13 @@ Las consultas detalladas están en [SQL_VERIFICACION.md](SQL_VERIFICACION.md). L
 - [ ] El dashboard muestra el estado `API conectada`.
 - [ ] El login JWT funciona con credenciales de desarrollo.
 - [ ] Swagger muestra los endpoints.
-- [ ] Las pruebas pasan.
+- [x] Las pruebas pasan.
 - [ ] Se verifica un voto exitoso.
 - [ ] Se verifica el rechazo del segundo voto.
 - [ ] Se verifica la respuesta de estadísticas.
 - [ ] Se verifica el rechazo del cruce votante/candidato.
 - [x] Se agregan capturas de estadísticas en `docs/ScreenShotsPostman/`.
-- [ ] `.env` y `venv/` quedan excluidos de Git.
+- [x] `.env`, `venv/`, `*.db` y cachés quedan excluidos de Git.
 - [ ] Se revisa el README.
 - [x] Se inicializa Git y se publica el repositorio público: [SistemaDeVotaciones](https://github.com/HOLOMAN582/SistemaDeVotaciones).
 

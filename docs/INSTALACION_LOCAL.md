@@ -19,7 +19,7 @@ Desde PowerShell:
 
 ```powershell
 git clone https://github.com/HOLOMAN582/SistemaDeVotaciones.git
-cd EntregableNewInntech
+cd SistemaDeVotaciones
 ```
 
 Si se recibió un archivo ZIP, descomprímelo y entra a la carpeta que contiene

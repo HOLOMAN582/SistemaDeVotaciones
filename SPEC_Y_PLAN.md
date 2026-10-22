@@ -158,11 +158,11 @@ httpx
 > como referencia a continuación solo aplica si el equipo tiene SQL Server y
 > ODBC Driver 18 instalados. Consulta `docs/INSTALACION_LOCAL.md`.
 
-**Cadena de conexión (`.env`):**
+**Cadena de conexión (`.env`), recomendada para una instalación nueva:**
 ```
 DATABASE_URL=sqlite:///./votaciones.db
 ```
-Con autenticación de Windows: `mssql+pyodbc://@localhost/VotacionesDB?driver=ODBC+Driver+18+for+SQL+Server&Trusted_Connection=yes&TrustServerCertificate=yes`
+Para SQL Server, se configura una cadena específica de la máquina en `.env`.
 
 ---
 
@@ -266,16 +266,14 @@ pip install -r requirements.txt
 pytest -v
 ```
 
-**Ejemplos curl para el README:**
+**Consultas curl de lectura:**
 ```bash
-curl -X POST http://127.0.0.1:8000/voters -H "Content-Type: application/json" \
-  -d '{"name":"Ana Gómez","email":"ana@mail.com"}'
-
-curl -X POST http://127.0.0.1:8000/candidates -H "Content-Type: application/json" \
-  -d '{"name":"Carlos Ruiz","party":"Partido Verde"}'
-
-curl -X POST http://127.0.0.1:8000/votes -H "Content-Type: application/json" \
-  -d '{"voter_id":1,"candidate_id":1}'
-
+curl http://127.0.0.1:8000/voters
+curl http://127.0.0.1:8000/candidates
+curl http://127.0.0.1:8000/votes
 curl http://127.0.0.1:8000/votes/statistics
 ```
+
+Las operaciones de escritura requieren JWT. El flujo completo de login,
+registro y emisión de voto está documentado en la sección de autenticación del
+README.
