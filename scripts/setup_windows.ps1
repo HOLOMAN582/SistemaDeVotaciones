@@ -30,6 +30,7 @@ Write-Host "[2/4] Actualizando pip..." -ForegroundColor Cyan
 & $python -m pip install --upgrade pip
 Write-Host "[3/4] Instalando dependencias. Esto requiere Internet y puede tardar..." -ForegroundColor Cyan
 & $python -m pip install -r requirements.txt
+& $python -c "import uvicorn, fastapi, sqlalchemy; print('Dependencias principales verificadas.')"
 
 if (-not (Test-Path ".\.env")) {
     Copy-Item ".env.example" ".env"

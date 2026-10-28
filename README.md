@@ -75,6 +75,21 @@ py -3 -m venv venv
 Copy-Item .env.example .env
 ```
 
+Verifica que la instalación terminó correctamente:
+
+```powershell
+.\venv\Scripts\python.exe -c "import uvicorn; print(uvicorn.__version__)"
+```
+
+Debe mostrar una versión, por ejemplo `0.30.0` o superior. Si aparece
+`No module named uvicorn`, la instalación de dependencias no terminó. Repara
+el entorno ejecutando:
+
+```powershell
+.\venv\Scripts\python.exe -m pip install uvicorn[standard]
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
 Si el comando `py` no existe, usa `python` en las dos primeras líneas:
 
 ```powershell
@@ -82,6 +97,12 @@ python -m venv venv
 .\venv\Scripts\python.exe -m pip install --upgrade pip
 .\venv\Scripts\python.exe -m pip install -r requirements.txt
 Copy-Item .env.example .env
+```
+
+Después verifica nuevamente:
+
+```powershell
+.\venv\Scripts\python.exe -c "import uvicorn; print(uvicorn.__version__)"
 ```
 
 Esta alternativa no activa el entorno con `Activate.ps1`; utiliza directamente
@@ -431,6 +452,10 @@ También puede ejecutarse sin activar manualmente el entorno:
 
 Este es el comando manual recomendado si la ejecución de scripts está
 deshabilitada.
+
+> Si aparece `No module named uvicorn`, no ejecutes `python -m uvicorn` con el
+> Python global. Usa siempre `.\venv\Scripts\python.exe` y reinstala las
+> dependencias con los comandos anteriores.
 
 ### Terminal 2: frontend
 

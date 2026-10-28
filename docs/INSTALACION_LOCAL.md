@@ -59,6 +59,19 @@ py -3 -m venv venv
 Copy-Item .env.example .env
 ```
 
+Comprueba que `uvicorn` quedó instalado:
+
+```powershell
+.\venv\Scripts\python.exe -c "import uvicorn; print(uvicorn.__version__)"
+```
+
+Si aparece `No module named uvicorn`, repara la instalación:
+
+```powershell
+.\venv\Scripts\python.exe -m pip install uvicorn[standard]
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
 Si `py` no está disponible, sustituye la primera línea por:
 
 ```powershell
@@ -127,6 +140,10 @@ Si PowerShell bloquea los scripts, usa este comando manual:
 ```powershell
 .\venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
+
+El comando debe usar el Python dentro de `venv`. No uses `python -m uvicorn`
+sin la ruta `.\venv\Scripts\python.exe`, porque ese comando puede apuntar a
+otra instalación de Python donde el paquete no existe.
 
 Terminal 2:
 
