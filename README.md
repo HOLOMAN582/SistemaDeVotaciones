@@ -49,6 +49,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\scripts\setup_windows.ps1
 ```
 
+Si prefieres no escribir comandos, abre `scripts\setup_windows.cmd` con doble
+clic. La ventana se mantiene abierta y muestra cualquier error de Python,
+permisos o conexión a Internet.
+
 El script crea un entorno virtual propio, instala las dependencias y genera
 `.env`. No es necesario copiar el `venv` desde otra máquina.
 
@@ -319,8 +323,11 @@ docs/
 └── SQL_VERIFICACION.md      # Consultas de comprobación en SQL Server
 scripts/
 ├── setup_windows.ps1         # Crea entorno e instala dependencias
+├── setup_windows.cmd         # Instalador visible con doble clic
 ├── start_backend.ps1         # Inicia FastAPI
-└── start_frontend.ps1        # Inicia el servidor web
+├── start_backend.cmd         # Inicia FastAPI con doble clic
+├── start_frontend.ps1        # Inicia el servidor web
+└── start_frontend.cmd        # Inicia el frontend con doble clic
 frontend/
 ├── index.html                # Interfaz del sistema
 ├── css/styles.css            # Estilos responsive
@@ -396,6 +403,9 @@ Abre una primera terminal de PowerShell y ejecuta:
 
 Backend disponible en `http://127.0.0.1:8000`.
 
+Como alternativa, abre `scripts\start_backend.cmd` con doble clic y deja la
+ventana abierta.
+
 También puede ejecutarse sin activar manualmente el entorno:
 
 ```powershell
@@ -411,6 +421,9 @@ Abre una segunda terminal de PowerShell y ejecuta:
 ```
 
 Frontend disponible en `http://127.0.0.1:5500`.
+
+Como alternativa, abre `scripts\start_frontend.cmd` con doble clic y deja la
+ventana abierta.
 
 El frontend consume la API mediante HTTP y nunca accede directamente a SQL Server.
 

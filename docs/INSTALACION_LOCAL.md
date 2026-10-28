@@ -34,6 +34,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\scripts\setup_windows.ps1
 ```
 
+Si prefieres no escribir comandos, abre `scripts\setup_windows.cmd` con doble
+clic. La ventana se mantiene abierta y muestra cualquier error de Python,
+permisos o conexión a Internet.
+
 El script:
 
 1. Crea `venv` dentro de la copia local.
@@ -94,11 +98,15 @@ Terminal 1:
 .\scripts\start_backend.ps1
 ```
 
+También puedes abrir `scripts\start_backend.cmd` con doble clic.
+
 Terminal 2:
 
 ```powershell
 .\scripts\start_frontend.ps1
 ```
+
+También puedes abrir `scripts\start_frontend.cmd` con doble clic.
 
 Direcciones:
 
