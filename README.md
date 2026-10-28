@@ -26,11 +26,13 @@ La API permite:
 | Python 3.11+   | Lenguaje principal               |
 | FastAPI        | API REST y documentación OpenAPI |
 | SQLAlchemy 2.x | Modelado y acceso a datos        |
+| SQLite         | Base local predeterminada        |
 | pyodbc         | Conexión con SQL Server          |
 | SQL Server     | Base de datos relacional         |
 | Pydantic 2     | Validación y serialización       |
+| python-jose    | Tokens JWT                       |
 | pytest         | Pruebas automatizadas            |
-| python-jose    | Tokens JWT |
+| HTML/CSS/JS    | Frontend independiente           |
 
 ## Requisitos previos
 
@@ -329,6 +331,7 @@ frontend/
 > en `tests/` y pueden ejecutarse con `pytest`.
 
 - [Guía detallada del proyecto](docs/GUIA_PROYECTO.md)
+- [Documento técnico de sustentación](docs/SUSTENTACION_TECNICA.md)
 - [Instalación y ejecución local](docs/INSTALACION_LOCAL.md)
 - [Consultas de verificación SQL Server](docs/SQL_VERIFICACION.md)
 - [Evidencias de Postman y estadísticas](docs/ScreenShotsPostman/)
