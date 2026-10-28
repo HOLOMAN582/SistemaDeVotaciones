@@ -61,14 +61,31 @@ El script crea un entorno virtual propio, instala las dependencias y genera
 > bloquea los scripts descargados, ejecuta
 > `Unblock-File .\scripts\setup_windows.ps1` antes de iniciar la instalación.
 
-La instalación manual equivalente es:
+### Instalación manual sin ejecutar scripts de PowerShell
+
+Si aparece el mensaje **“la ejecución de scripts está deshabilitada en este
+sistema”**, no ejecutes ningún archivo `.ps1` y no necesitas cambiar la
+política del equipo. Desde la raíz del proyecto, ejecuta estos comandos
+directamente:
 
 ```powershell
 py -3 -m venv venv
-.\venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+.\venv\Scripts\python.exe -m pip install --upgrade pip
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
+
+Si el comando `py` no existe, usa `python` en las dos primeras líneas:
+
+```powershell
+python -m venv venv
+.\venv\Scripts\python.exe -m pip install --upgrade pip
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Esta alternativa no activa el entorno con `Activate.ps1`; utiliza directamente
+el Python que está dentro de `venv`.
 
 ## Configuración de la base de datos
 
@@ -412,6 +429,9 @@ También puede ejecutarse sin activar manualmente el entorno:
 .\venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
+Este es el comando manual recomendado si la ejecución de scripts está
+deshabilitada.
+
 ### Terminal 2: frontend
 
 Abre una segunda terminal de PowerShell y ejecuta:
@@ -424,6 +444,12 @@ Frontend disponible en `http://127.0.0.1:5500`.
 
 Como alternativa, abre `scripts\start_frontend.cmd` con doble clic y deja la
 ventana abierta.
+
+Si no puedes usar ningún script, ejecuta desde una segunda terminal:
+
+```powershell
+.\venv\Scripts\python.exe -m http.server 5500 --bind 127.0.0.1 --directory frontend
+```
 
 El frontend consume la API mediante HTTP y nunca accede directamente a SQL Server.
 

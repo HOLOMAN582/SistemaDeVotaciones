@@ -47,6 +47,28 @@ El script:
 
 No se copia `venv` desde otra máquina. Cada equipo crea su propio entorno.
 
+### Instalación manual si PowerShell bloquea los scripts
+
+Si aparece **“la ejecución de scripts está deshabilitada en este sistema”**,
+omite todos los archivos `.ps1`. Desde la raíz del proyecto ejecuta:
+
+```powershell
+py -3 -m venv venv
+.\venv\Scripts\python.exe -m pip install --upgrade pip
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Si `py` no está disponible, sustituye la primera línea por:
+
+```powershell
+python -m venv venv
+```
+
+No uses `.\venv\Scripts\Activate.ps1`, porque también es un script de
+PowerShell. Los comandos anteriores utilizan directamente el ejecutable de
+Python del entorno virtual.
+
 ## 4. Base de datos local predeterminada
 
 La configuración inicial usa SQLite:
@@ -100,6 +122,12 @@ Terminal 1:
 
 También puedes abrir `scripts\start_backend.cmd` con doble clic.
 
+Si PowerShell bloquea los scripts, usa este comando manual:
+
+```powershell
+.\venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
 Terminal 2:
 
 ```powershell
@@ -107,6 +135,13 @@ Terminal 2:
 ```
 
 También puedes abrir `scripts\start_frontend.cmd` con doble clic.
+
+Si PowerShell bloquea los scripts, usa este comando manual en la segunda
+terminal:
+
+```powershell
+.\venv\Scripts\python.exe -m http.server 5500 --bind 127.0.0.1 --directory frontend
+```
 
 Direcciones:
 
