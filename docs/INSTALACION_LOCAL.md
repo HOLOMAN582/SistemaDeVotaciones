@@ -143,6 +143,37 @@ en `.env`.
 
 ## 8. Problemas frecuentes
 
+### Solo aparece “Windows PowerShell Copyright...”
+
+Ese texto es el encabezado normal de PowerShell; no es un mensaje de error.
+El script debe ejecutarse desde una ventana de PowerShell ubicada en la carpeta
+raíz del proyecto. No abras el archivo `.ps1` con doble clic.
+
+Ejecuta estos comandos uno por uno:
+
+```powershell
+cd "C:\ruta\donde\esta\SistemaDeVotaciones"
+Get-ChildItem
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Unblock-File .\scripts\setup_windows.ps1
+.\scripts\setup_windows.ps1
+```
+
+Debes reemplazar `C:\ruta\donde\esta\SistemaDeVotaciones` por la ruta real.
+Después de ejecutar cada comando debe seguir apareciendo el prompt, similar a:
+
+```text
+PS C:\...\SistemaDeVotaciones>
+```
+
+El comando `Get-ChildItem` debe mostrar, entre otros elementos, las carpetas
+`app`, `frontend`, `scripts` y el archivo `requirements.txt`.
+
+Si el proyecto fue descargado como ZIP, `Unblock-File` quita el bloqueo de
+Windows que puede impedir la ejecución de archivos PowerShell. Si el mensaje
+indica que no existe `py`, instala Python 3.11 o superior desde
+[python.org](https://www.python.org/downloads/) y activa **Add Python to PATH**.
+
 ### PowerShell no permite ejecutar scripts
 
 ```powershell

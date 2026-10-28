@@ -52,6 +52,11 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 El script crea un entorno virtual propio, instala las dependencias y genera
 `.env`. No es necesario copiar el `venv` desde otra máquina.
 
+> Ejecuta los comandos desde una ventana de PowerShell abierta en la carpeta
+> raíz del proyecto. No abras los archivos `.ps1` con doble clic. Si Windows
+> bloquea los scripts descargados, ejecuta
+> `Unblock-File .\scripts\setup_windows.ps1` antes de iniciar la instalación.
+
 La instalación manual equivalente es:
 
 ```powershell
