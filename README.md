@@ -71,8 +71,10 @@ Copy-Item .env.example .env
 DATABASE_URL=sqlite:///./votaciones.db
 ```
 
-No requiere instalar SQL Server. Las tablas se crean automáticamente al iniciar
-la aplicación y `votaciones.db` se genera localmente.
+Esta línea pertenece al archivo `.env`; no se debe escribir como comando en
+PowerShell. No escribas `env` ni `DATABASE_URL=...` directamente en la
+terminal. No requiere instalar SQL Server. Las tablas se crean automáticamente
+al iniciar la aplicación y `votaciones.db` se genera localmente.
 
 ### Opción SQL Server
 

@@ -51,9 +51,27 @@ La configuración inicial usa SQLite:
 DATABASE_URL=sqlite:///./votaciones.db
 ```
 
-No hay que crear tablas manualmente. FastAPI las crea al iniciar y el archivo
-`votaciones.db` se genera en la raíz del proyecto. Este archivo es local y no
-debe publicarse.
+> **Importante:** el bloque anterior no se ejecuta como un comando en
+> PowerShell. Es una variable de configuración y debe estar escrita en el
+> archivo `.env`, en la raíz del proyecto. No escribas `env` ni
+> `DATABASE_URL=...` directamente en la terminal.
+
+El instalador crea `.env` automáticamente a partir de `.env.example`. Si el
+archivo no existe, créalo así:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Después de configurar `.env`, inicia el backend:
+
+```powershell
+.\scripts\start_backend.ps1
+```
+
+No hay que crear tablas ni `votaciones.db` manualmente. FastAPI crea las tablas
+al iniciar y el archivo `votaciones.db` se genera en la raíz del proyecto.
+Este archivo es local, está excluido de Git y no debe publicarse.
 
 Credenciales iniciales del administrador:
 
